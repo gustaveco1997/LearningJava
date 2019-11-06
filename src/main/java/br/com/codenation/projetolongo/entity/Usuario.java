@@ -20,8 +20,6 @@ public class Usuario {
     @JoinColumn(name="company_id")
     private Empresa empresa;
 
-    private long idEmpresa;
-
     @Column(name = "salary")
     private BigDecimal salario;
 
