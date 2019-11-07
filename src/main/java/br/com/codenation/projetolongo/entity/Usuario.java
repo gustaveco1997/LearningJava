@@ -40,16 +40,15 @@ public class Usuario {
 
     }
 
-    public Usuario(Long id, String nome, String documento, int idade, String login, String senha, Long idEmpresa, BigDecimal salario) {
+    public Usuario(Long id, String nome, String documento, int idade, String login, String senha, Empresa empresa, BigDecimal salario) {
         this.id = id;
         this.name = nome;
         this.documento = documento;
         this.idade = idade;
         this.login = login;
         this.senha = senha;
-        this.idEmpresa = idEmpresa;
+        this.empresa = empresa;
         this.salario = salario;
-
     }
 
 
@@ -107,14 +106,6 @@ public class Usuario {
 
     public void setEmpresa(Empresa empresa) {
         this.empresa = empresa;
-    }
-
-    public long getIdEmpresa() {
-        return idEmpresa;
-    }
-
-    public void setIdEmpresa(long idEmpresa) {
-        this.idEmpresa = idEmpresa;
     }
 
     public String getLogin() {

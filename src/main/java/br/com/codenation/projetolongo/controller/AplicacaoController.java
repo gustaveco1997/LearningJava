@@ -1,6 +1,7 @@
 package br.com.codenation.projetolongo.controller;
 
 import br.com.codenation.projetolongo.entity.Empresa;
+import br.com.codenation.projetolongo.entity.FolhaPagamento;
 import br.com.codenation.projetolongo.entity.Usuario;
 import br.com.codenation.projetolongo.service.AplicacaoService;
 import br.com.codenation.projetolongo.service.FileStreamService;
@@ -19,32 +20,31 @@ public class AplicacaoController implements ApplicationServiceImpl {
         List<Empresa> empresas = fileService.lerArquivoEmpresa();
         List<Usuario> usuarios = fileService.lerArquivoUsuario();
         service.setDadosUsuariosEmpresas(usuarios, empresas);
-
     }
 
     @Override
-    public void showMaiorSalarioCadaEmpresa() {
-        service.showMaiorSalarioCadaEmpresa();
+    public List<Empresa> showMaiorSalarioCadaEmpresa() {
+        return service.showMaiorSalarioCadaEmpresa();
     }
 
     @Override
-    public void showMediaSalarialCadaEmpresa() {
-        service.showMediaSalarialCadaEmpresa();
+    public List<Empresa> showMediaSalarialCadaEmpresa() {
+        return service.showMediaSalarialCadaEmpresa();
     }
 
     @Override
-    public void showFolhaPagamentoCadaEmpresa() {
-        service.showFolhaPagamentoCadaEmpresa();
+    public List<Empresa> showFolhaPagamentoCadaEmpresa() {
+        return service.showFolhaPagamentoCadaEmpresa();
     }
 
     @Override
-    public void showMediaIdade() {
-        service.showMediaIdade();
+    public double showMediaIdade() {
+        return service.showMediaIdade();
     }
 
     @Override
-    public void showUsuariosOdenadosIdadeCadaEmpresa() {
-        service.showUsuariosOdenadosIdadeCadaEmpresa();
+    public List<Empresa> showUsuariosOdenadosIdadeCadaEmpresa() {
+        return service.showUsuariosOdenadosIdadeCadaEmpresa();
     }
 
     @Override
@@ -59,12 +59,12 @@ public class AplicacaoController implements ApplicationServiceImpl {
 
     @Override
     public List<Usuario> findUsuariosEmpresa(Long idEmpresa) {
-        return findUsuariosEmpresa(idEmpresa);
+        return service.findUsuariosFromEmpresa(idEmpresa);
     }
 
     @Override
     public void inserirUsuarioEmpresa(Usuario usuario) {
-        inserirUsuarioEmpresa(usuario);
+        service.inserirUsuarioEmpresa(usuario);
     }
 
     @Override

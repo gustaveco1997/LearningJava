@@ -6,8 +6,10 @@ import br.com.codenation.projetolongo.entity.Usuario;
 import br.com.codenation.projetolongo.exception.MyExceptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.rmi.runtime.Log;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -20,99 +22,111 @@ public class AplicacaoService {
     private List<Empresa> empresas = new ArrayList<>();
 
     /*PRINTS*/
-    public void showMaiorSalarioCadaEmpresa() {
+    public List<Empresa> showMaiorSalarioCadaEmpresa() {
         LOG.info("\n#### -- MAIOR SALARIO POR EMPRESA");
+
+        List<Empresa> empresasMaiorSalario = new ArrayList<>();
         empresas.forEach(empresa -> {
-            LOG.info("#### EMPRESA: {} - R$ {}", empresa.getName(), getMaiorSalarioPorEmpresa(empresa.getId()));
+            //getMaiorSalarioPorEmpresa(empresa.getId())
+
+            BigDecimal mediaSalarial = getMaiorSalarioPorEmpresa(empresa);
+            empresa.setSalario(mediaSalarial);
+            empresasMaiorSalario.add(empresa);
+
+            LOG.info("#### EMPRESA: {} - R$ {}", empresa.getName(), mediaSalarial);
         });
+
+        return empresasMaiorSalario;
     }
 
-    public void showMediaSalarialCadaEmpresa() {
+    public List<Empresa> showMediaSalarialCadaEmpresa() {
         LOG.info("\n#### -- MÉDIA SALARIAL");
-
-
+        List<Empresa> empresasMediaSalarial = new ArrayList<>();
 
         empresas.forEach(empresa -> {
-            LOG.info("#### EMPRESA: {} - R$ {}", empresa.getName(), getMediaSalarialEmpresa(empresa.getId()));
+            empresa.setSalario(getMediaSalarialEmpresa(empresa));
+            empresasMediaSalarial.add(empresa);
+
+            LOG.info("#### EMPRESA: {} - R$ {}", empresa.getName(), getMediaSalarialEmpresa(empresa));
         });
+
+        return empresasMediaSalarial;
     }
 
-    public List<FolhaPagamento> showFolhaPagamentoCadaEmpresa() {
+    public List<Empresa> showFolhaPagamentoCadaEmpresa() {
         LOG.info("\n#### -- FOLHA PAGAMENTO");
 
-        List<FolhaPagamento> folhas = new ArrayList<>();
-        FolhaPagamento folhaPagamento = new FolhaPagamento();
+        List<Empresa> folhasPagamento = new ArrayList<>();
+
         empresas.forEach(empresa -> {
             BigDecimal folhaValor = empresa.getUsuarios().stream()
                     .map(Usuario::getSalario).reduce(BigDecimal.ZERO, BigDecimal::add);
 
-            folhaPagamento.setEmpresa(empresa);
-            folhaPagamento.setFolhaPagamento(folhaValor);
-            folhas.add(folhaPagamento);
+            empresa.setSalario(folhaValor);
+            folhasPagamento.add(empresa);
 
-            System.out.println("aaaaaaaa");
-            System.out.println(empresa.getName());
-            System.out.println(folhaValor);
+            System.out.println(empresa.getName() + " -- R$ " + folhaValor);
 
         });
 
+        return folhasPagamento;
 
-        return folhas;
-        //return folhaPagamento;
-
-        /*BigDecimal d = empresas.stream()
-                .flatMap(empresa -> empresa.getUsuarios().stream())
-                .map(Usuario::getSalario).reduce(BigDecimal.ZERO, BigDecimal::add);*/
-
-
-
-
-
-        /*empresas.forEach(empresa -> {
-            LOG.info("#### EMPRESA: {} - R${}", empresa.getName(), getTotalFolhaPorEmpresa(empresa.getId()));
-        });*/
     }
 
-    public void showMediaIdade() {
-        LOG.info("#### MEDIA IDADE: {} ", getMediaIdade());
+    public double showMediaIdade() {
+        double mediaIdade = getMediaIdade();
+        LOG.info("#### MEDIA IDADE: {} ", mediaIdade);
+
+        return mediaIdade;
     }
 
-    public void showUsuariosOdenadosIdadeCadaEmpresa() {
+    public List<Empresa> showUsuariosOdenadosIdadeCadaEmpresa() {
+        //crescente
+        List<Empresa> empresaUsuariosOrdenadosIdade = new ArrayList<>();
+
         empresas.forEach(empresa -> {
+
             LOG.info("#### ORDENADO IDADE: {} ", empresa.getName());
-            ordenaUsuariosIdadePorEmpresa(empresa.getId()).forEach(usuario ->
-                    LOG.info("#### USUARIO ORDENADO: {} ", usuario.getName())
+            List<Usuario> usuariosOrdenados = ordenaUsuariosIdadePorEmpresa(empresa);
+            usuariosOrdenados.forEach(usuario ->
+                    LOG.info("#### USUARIO IDADE: {} ", usuario.getIdade())
             );
+            empresa.setUsuarios(usuariosOrdenados);
+            empresaUsuariosOrdenadosIdade.add(empresa);
         });
+
+        return empresaUsuariosOrdenadosIdade;
     }
 
-    public BigDecimal getMaiorSalarioPorEmpresa(Long idEmpresa) {
+    private BigDecimal getMaiorSalarioPorEmpresa(Empresa empresa) {
+
         return usuarios.stream()
-                .filter(usuario -> usuario.getIdEmpresa() == idEmpresa)
+                .filter(usuario -> usuario.getEmpresa().equals(empresa))
                 .max(Comparator.comparing(Usuario::getSalario))
                 .map(Usuario::getSalario).orElse(BigDecimal.ZERO);
-//        return usuarios.stream().filter(usuario -> usuario.getIdEmpresa() == idEmpresa).max(Comparator.comparing(Usuario::getSalario)).map(Usuario::getSalario).orElse(0.0);
     }
 
-    public BigDecimal getMediaSalarialEmpresa(Long idEmpresa) {
-        BigDecimal somatorio = getTotalFolhaPorEmpresa(idEmpresa);
-        return somatorio.divide(new BigDecimal(usuarios.size()));
+    private BigDecimal getMediaSalarialEmpresa(Empresa empresa) {
+        BigDecimal somatorio = getTotalFolhaPorEmpresa(empresa);
+        BigDecimal qntUsuarios = new BigDecimal(usuarios.size());
+        return somatorio.divide(qntUsuarios, 2, RoundingMode.CEILING); //2 significa qnt de digitos após a virgula
     }
 
-    public BigDecimal getTotalFolhaPorEmpresa(Long idEmpresa) {
+    private BigDecimal getTotalFolhaPorEmpresa(Empresa empresa) {
+        //valido
         return usuarios.stream()
-                .filter(usuario -> usuario.getIdEmpresa() == idEmpresa)
+                .filter(usuario -> usuario.getEmpresa().equals(empresa))
                 .map(Usuario::getSalario).reduce(BigDecimal.ZERO, (somario, atual) -> atual);
     }
 
     //average
-    public double getMediaIdade() {
+    private double getMediaIdade() {
         double somatorio = getTotalIdade();
         return somatorio / usuarios.size();
     }
 
-    public List<Usuario> ordenaUsuariosIdadePorEmpresa(Long idEmpresa) {
-        return usuarios.stream().filter(usuario -> usuario.getIdEmpresa() == idEmpresa).sorted(Comparator.comparing(Usuario::getIdade)).collect(Collectors.toList());
+    private List<Usuario> ordenaUsuariosIdadePorEmpresa(Empresa empresa) {
+        return usuarios.stream().filter(usuario -> usuario.getEmpresa().equals(empresa)).sorted(Comparator.comparing(Usuario::getIdade)).collect(Collectors.toList());
     }
 
     private int getTotalIdade() {
@@ -131,7 +145,6 @@ public class AplicacaoService {
         //aquiii
 
         //Empresa empresa = showFolhaPagamentoCadaEmpresa().stream().min(Comparator.comparing(FolhaPagamento::getFolhaPagamento))
-
 
 
         return null;
@@ -160,11 +173,28 @@ public class AplicacaoService {
     }
 
     public Empresa findEmpresaById(Long id) {
-        return empresas.stream().filter(empresa -> empresa.getId() == id).findFirst().orElse(null);
+        Empresa empresaEncontrada = empresas.stream().filter(empresa -> empresa.getId().equals(id)).findFirst().orElse(null);
+        if (empresaEncontrada != null) {
+            System.out.println("Empresa ENCONTRADA: " + empresaEncontrada.getName());
+        } else {
+            System.out.println("Empresa NAO ENCONTRADA: ");
+        }
+
+        return empresaEncontrada;
+    }
+
+    public List<Usuario> findUsuariosFromEmpresa(Long idEmpresa) {
+        LOG.info("#### USUARIOS FROM EMPRESA");
+        Empresa empresa = findEmpresaById(idEmpresa);
+        List<Usuario> usuariosEmpresa = null;
+        usuariosEmpresa = empresa.getUsuarios();
+        usuariosEmpresa.stream().map(Usuario::getName).forEach(System.out::println);
+
+        return usuariosEmpresa;
     }
 
     public List<Usuario> findUsuariosEmpresas(Usuario usuario) {
-        List<Usuario> users = usuarios.stream().filter(user -> user.getIdEmpresa() == usuario.getIdEmpresa()
+        List<Usuario> users = usuarios.stream().filter(user -> user.getEmpresa() == usuario.getEmpresa()
                 && user.getName().equals(usuario.getName())
                 && user.getDocumento().equals(usuario.getDocumento())
                 && user.getIdade() == usuario.getIdade()).collect(Collectors.toList());
@@ -174,14 +204,13 @@ public class AplicacaoService {
 
 
     public void inserirUsuarioEmpresa(Usuario usuario) throws MyExceptions {
-        Long idEmpresa = usuario.getIdEmpresa();
-        Empresa empresa = findEmpresaById(idEmpresa);
+        Empresa empresa = usuario.getEmpresa();
 
         validarEmpresa(empresa); //gera Exception
         validarVagas(empresa);//gera Exception
 
         empresa.getUsuarios().add(usuario);
-        int index = empresas.indexOf(empresa);
+        int index = empresas.indexOf(empresa); //mesma posição na memória que o objeto acima
         empresas.set(index, empresa);
 
 

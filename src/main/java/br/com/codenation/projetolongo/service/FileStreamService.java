@@ -14,8 +14,10 @@ public class FileStreamService {
 
     private List<Usuario> usuarios = new ArrayList<>();
     private List<Empresa> empresas = new ArrayList<>();
-    private final static String arquivoUsuario = "/home/gustavo/Documentos/arquivos/usuarios.txt";
-    private final static String arquivoEmpresa = "/home/gustavo/Documentos/arquivos/empresa.txt";
+    //private final static String arquivoUsuario = "/home/gustavo/Documentos/arquivos/usuarios.txt";
+    //private final static String arquivoEmpresa = "/home/gustavo/Documentos/arquivos/empresa.txt";
+    private final static String arquivoUsuario = "/home/gustavo/Downloads/ProjetoLongo/arquivos/usuarios.txt";
+    private final static String arquivoEmpresa = "/home/gustavo/Downloads/ProjetoLongo/arquivos/empresa.txt";
 
     @MyAnnotation(texto = "Method que faaz a leitura do arquivo Usuário")
     public List<Usuario> lerArquivoUsuario() {
@@ -46,8 +48,7 @@ public class FileStreamService {
                     usuario.setIdade(idade);
                     usuario.setLogin(login);
                     usuario.setSenha(getSenhaCriptografada(senha)); //senha criptografada
-                    usuario.setIdEmpresa(empresa);
-                    usuario.setEmpresa(empresaObj); //em teste
+                    usuario.setEmpresa(empresaObj);
                     usuario.setSalario(salario);
 
                     usuarios.add(usuario);

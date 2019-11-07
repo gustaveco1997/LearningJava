@@ -1,5 +1,6 @@
 package br.com.codenation.projetolongo.entity;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.Data;
 import org.apache.tomcat.jni.Address;
 
@@ -21,18 +22,6 @@ public class Empresa {
     @Column(name = "name", nullable = false, length = 255)
     private String name;
 
-    @Column(name = "teste", nullable = false, length = 255)
-    private String teste;
-
-
-    public String getTeste() {
-        return teste;
-    }
-
-    public void setTeste(String teste) {
-        this.teste = teste;
-    }
-
     @Column(name = "document")
     private String documento;
 
@@ -42,7 +31,8 @@ public class Empresa {
     @Column(name = "site")
     private String site;
 
-    @Column(name = "salary")
+    //@Column(name = "salary")
+    @Ignore
     private BigDecimal salario;
 
     @OneToOne
@@ -68,6 +58,7 @@ public class Empresa {
         this.site = site;
         usuarios = new ArrayList<>();
     }
+
 
     public Endereco getEnderco() {
         return enderco;

@@ -13,10 +13,10 @@ public interface ApplicationServiceImpl {
     Empresa inserirEmpresa(Empresa empresa);
     void  setDadosFromArquivos();
 
-    void showMaiorSalarioCadaEmpresa();
-    void showMediaSalarialCadaEmpresa();
-    void showFolhaPagamentoCadaEmpresa();
+    List<Empresa> showMaiorSalarioCadaEmpresa();
+    List<Empresa> showMediaSalarialCadaEmpresa();
+    List<Empresa> showFolhaPagamentoCadaEmpresa();
 
-    void showMediaIdade();
-    void showUsuariosOdenadosIdadeCadaEmpresa();
+    double showMediaIdade();
+    List<Empresa> showUsuariosOdenadosIdadeCadaEmpresa();
 }
