@@ -7,12 +7,16 @@ import org.springframework.stereotype.Repository;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EmpresaDAO extends JpaRepository<Empresa, Long> {//Long é a chave primária
 
-    //@Query("SELECT e FROM Company WHERE c.name like :name ORDER BY name")
-    //List<Empresa> findByName(@PathParam("name") String name);
+    @Override
+    Optional<Empresa> findById(Long aLong);
+
+    @Query(value = "FROM company WHERE c.name like :name ORDER BY name", nativeQuery = true)
+    List<Empresa> findByName(@PathParam("name") String name);
     //findAllByNameByOrderBy
 
 /*

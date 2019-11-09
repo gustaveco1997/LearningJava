@@ -38,7 +38,7 @@ class ProjetoLongoApplicationTests {
 
     @Test
     void findEmpresa() {
-
+        service.findByName("Empresa");
 
     }
 

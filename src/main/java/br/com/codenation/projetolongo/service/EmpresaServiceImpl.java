@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +36,10 @@ public class EmpresaServiceImpl implements EmpresaService {
         /*List<Empresa> lista = empresaDAO.findByName(nome);
         lista.forEach(empresa -> System.out.println(empresa.getName()));
         return lista;*/
-
+        empresaDAO.findByName(nome);
         return null;
     }
+
 
 
 
