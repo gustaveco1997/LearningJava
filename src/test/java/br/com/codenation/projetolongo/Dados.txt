@@ -1,0 +1,32 @@
+@Transactional
+Todas as ações devem ser executadas, caso algo dê errado,
+faz o rollback de tudo
+
+
+@Modifying(Obrigatorio para o Repository)
+para realizar o commit dos métodos
+
+@NoRepositoryBean
+-> Roda sem implementação
+JpaRepository<Company, Log>
+
+
+//nativeQuery -- mais rápida
+@Query (:asd) = passa a classe
+method @PathParam("asd")
+
+
+SpringaData Annotations = historico no hibernate
+pega automatico para criacao da auditoria
+
+Ver @Procedure em cima da classe
+Ver @Lock deixar em NONE (não recomendado travar a tabela)
+(Campo not null vai travar)
+
+
+//https://baeldung.com/java-jpa-transaction-locks
+//importante
+//para nao trava o banco
+Define a coluna para Null (pode ser nulo)
+faz update dos dados (Pois o update da linha sincroniza com as alterações atuais do banco)
+Define para not null novamente com o valor padrão

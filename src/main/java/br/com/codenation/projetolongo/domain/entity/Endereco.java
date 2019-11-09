@@ -1,11 +1,15 @@
-package br.com.codenation.projetolongo.entity;
+package br.com.codenation.projetolongo.domain.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity(name = "address")
-//@Data
+@Data
+@Getter
+@Setter
 public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

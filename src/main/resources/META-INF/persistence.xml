@@ -10,9 +10,9 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <!-- entidade mapeada -->
-        <class>br.com.codenation.projetolongo.entity.Empresa</class>
-        <class>br.com.codenation.projetolongo.entity.Usuario</class>
-        <class>br.com.codenation.projetolongo.entity.Endereco</class>
+        <class>br.com.codenation.projetolongo.domain.entity.Empresa</class>
+        <class>br.com.codenation.projetolongo.domain.entity.Usuario</class>
+        <class>br.com.codenation.projetolongo.domain.entity.Endereco</class>
 
         <properties>
             <!-- dados da conexao -->

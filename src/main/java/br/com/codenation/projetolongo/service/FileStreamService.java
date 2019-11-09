@@ -1,8 +1,8 @@
 package br.com.codenation.projetolongo.service;
 
 import br.com.codenation.projetolongo.anottantion.MyAnnotation;
-import br.com.codenation.projetolongo.entity.Empresa;
-import br.com.codenation.projetolongo.entity.Usuario;
+import br.com.codenation.projetolongo.domain.entity.Empresa;
+import br.com.codenation.projetolongo.domain.entity.Usuario;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
