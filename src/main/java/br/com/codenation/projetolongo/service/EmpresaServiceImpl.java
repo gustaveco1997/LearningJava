@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+//List<CompanyVo> findAll(), List.class
 @Service
 public class EmpresaServiceImpl implements EmpresaService {
     Logger LOG = LoggerFactory.getLogger(EmpresaServiceImpl.class);
@@ -20,9 +21,12 @@ public class EmpresaServiceImpl implements EmpresaService {
     @Autowired
     private EmpresaDAO empresaDAO;
 
+    public Long countEmpresas() {
+        return empresaDAO.count();
+    }
+
     @Override
     public Empresa salvar(Empresa empresa) {
-        EmpresaDAO teste = empresaDAO;
         return empresaDAO.save(empresa);
     }
 
@@ -33,29 +37,25 @@ public class EmpresaServiceImpl implements EmpresaService {
 
     @Override
     public List<Empresa> findByName(String nome) {
-        /*List<Empresa> lista = empresaDAO.findByName(nome);
-        lista.forEach(empresa -> System.out.println(empresa.getName()));
-        return lista;*/
-        empresaDAO.findByName(nome);
+        return empresaDAO.findByName(nome);
+    }
+
+    @Override
+    public Empresa findById(Long id) {
+        return empresaDAO.findById(id).orElse(null);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        empresaDAO.deleteById(id);
+    }
+
+    @Override
+    public List<Empresa> findAll() {
         return null;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*    public Empresa insertEmpresa(Empresa empresa) throws MyExceptions {
+    /*    public Empresa insertEmpresa(Empresa empresa) throws MyExceptions {
 
         validarEmpresaInsert(empresa);
         empresas.add(empresa);

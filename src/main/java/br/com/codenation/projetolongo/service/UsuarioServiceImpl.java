@@ -3,16 +3,13 @@ package br.com.codenation.projetolongo.service;
 import br.com.codenation.projetolongo.domain.DAO.UsuarioDAO;
 import br.com.codenation.projetolongo.domain.entity.Usuario;
 import br.com.codenation.projetolongo.service.interfaces.UsuarioService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.math.BigDecimal;
 
+@Service
 public class UsuarioServiceImpl implements UsuarioService {
-    private Logger LOG = LoggerFactory.getLogger(UsuarioServiceImpl.class);
-    private List<Usuario> usuarios;
-
 
     @Autowired
     private UsuarioDAO usuarioDAO;
@@ -23,9 +20,36 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public void updateUser(Usuario usuario) {
+        usuarioDAO.updateNameFromId(usuario.getId(), usuario.getName());
+    }
+
+    @Override
     public void deletar(Usuario usuario) {
         usuarioDAO.delete(usuario);
     }
+
+    @Override
+    public Usuario findById(Long id) {
+        return usuarioDAO.findById(id).orElse(null);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        usuarioDAO.deleteById(id);
+    }
+
+    @Override
+    public void updateSalario(Long id, BigDecimal salario) {
+        usuarioDAO.updateSalarioFromId(id, salario);
+    }
+
+    @Override
+    public Usuario findByUserName(String username) {
+        return null;
+    }
+
+
 
 
 

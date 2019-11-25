@@ -1,17 +1,17 @@
 package br.com.codenation.projetolongo.domain.entity;
 
+import br.com.codenation.projetolongo.domain.vo.EmpresaVo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jdk.nashorn.internal.ir.annotations.Ignore;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "company")
+@Entity
+@Table(name = "company")
 @Data
 @Getter
 @Setter
@@ -39,13 +39,12 @@ public class Empresa {
 
     @OneToOne
     @JoinColumn(name = "address_id")
-    private Endereco enderco;
+    private Endereco endereco;
 
-    //FetchType.LAZY //traz apenas quando eu quero
+    //FetchType.LAZY //traz apenas quando eu quero+
     //FetchType.EAGER //traz instanciado
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Usuario> usuarios = new ArrayList<>();
-
 
     public Empresa() {
 
@@ -58,5 +57,19 @@ public class Empresa {
         this.vagas = vagas;
         this.site = site;
         usuarios = new ArrayList<>();
+    }
+
+    public static EmpresaVo toEmpresaVo(Empresa retorno) {
+        EmpresaVo empresaVo = EmpresaVo.builder()
+                .id(retorno.getId())
+                .documento(retorno.getDocumento())
+                .endereco(retorno.getEndereco())
+                .site(retorno.getSite())
+                .vagas(retorno.getVagas())
+                .name(retorno.getName())
+                .build();
+
+        return empresaVo;
+
     }
 }

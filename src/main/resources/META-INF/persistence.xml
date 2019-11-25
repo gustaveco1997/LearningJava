@@ -13,6 +13,8 @@
         <class>br.com.codenation.projetolongo.domain.entity.Empresa</class>
         <class>br.com.codenation.projetolongo.domain.entity.Usuario</class>
         <class>br.com.codenation.projetolongo.domain.entity.Endereco</class>
+        <class>br.com.codenation.projetolongo.domain.entity.Role</class>
+        <class>br.com.codenation.projetolongo.domain.entity.UserRole</class>
 
         <properties>
             <!-- dados da conexao -->

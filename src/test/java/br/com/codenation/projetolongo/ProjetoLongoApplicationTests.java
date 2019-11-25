@@ -1,12 +1,12 @@
 package br.com.codenation.projetolongo;
 
-import br.com.codenation.projetolongo.controller.AplicacaoController;
-import br.com.codenation.projetolongo.domain.DAO.EmpresaDAO;
 import br.com.codenation.projetolongo.domain.entity.Empresa;
 import br.com.codenation.projetolongo.domain.entity.Usuario;
 import br.com.codenation.projetolongo.service.AplicacaoService;
 import br.com.codenation.projetolongo.service.EmpresaServiceImpl;
+import br.com.codenation.projetolongo.service.UsuarioServiceImpl;
 import br.com.codenation.projetolongo.service.interfaces.EmpresaService;
+import br.com.codenation.projetolongo.service.interfaces.UsuarioService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,28 +18,55 @@ import java.util.List;
 @SpringBootTest
 class ProjetoLongoApplicationTests {
 
-
     @Autowired
-    EmpresaService service;
+    EmpresaServiceImpl empresaService;
+    @Autowired
+    UsuarioServiceImpl usuarioService;
 
 
-    //Criar Builder para Usuario e Empresa
+    //Criar Builder para Usuario e Empresas
+
     @Test
-    void insertEmpresa() {
-        Empresa e = new Empresa();
-        e.setName("Empresa teste");
-        e.setDocumento("1111");
-        e.setVagas(111);
-        e.setSite("www.www.www");
-
-        Empresa empresa = service.salvar(e);
-        assert (empresa != null && empresa.getId() != null);
+    void updateName() {
+        Usuario u = new Usuario();
+        u.setId(2L);
+        u.setName("Novo Nome");
+        usuarioService.updateUser(u);
     }
 
     @Test
-    void findEmpresa() {
-        service.findByName("Empresa");
+    void testando_selects() {
+        List<Empresa> empresas = empresaService.findByName("EmpresaTeste");
 
+        assert (empresas != null && !empresas.isEmpty());
+        empresas.forEach(empresa -> System.out.println(empresa.getName()));
+
+
+        //Empresa empresa = empresaService.findById(1L);
+        //assert (empresa != null && empresa.getId() != null);
+
+    }
+
+    @Test
+    void insertEmpresa() {
+        /*Empresa e = new Empresa();
+        e.setName("Empresa Lumina");
+        e.setDocumento("02.068.969/0001-20");
+        e.setVagas(2);
+        e.setSite("www.lumina.com.br");
+
+        Empresa empresa = empresaService.salvar(e);
+        assert (empresa != null && empresa.getId() != null);*/
+    }
+
+    @Test
+    void findEmpresaByName() {
+        empresaService.findByName("Empresa");
+    }
+
+    @Test
+    Empresa findEmpresaById() {
+        return empresaService.findById(1L);
     }
 
     @Test
@@ -49,6 +76,7 @@ class ProjetoLongoApplicationTests {
         Usuario u = new Usuario();
         u.setName("Gustavo");
         u.setDocumento("2318029");
+
         //u.setEmpresa();
         u.setIdade(22);
         u.setLogin("euteste");
