@@ -36,6 +36,13 @@ public class EmpresaController {
         return ResponseEntity.ok(empresaVos);
     }
 
+    @GetMapping("/mediasalarial")
+    public ResponseEntity mediaSalarialEmpresa() {
+        List<EmpresaVo> empresas = empresaService.mediaSalarialEmpresa();
+        //List<EmpresaVo> empresaVos = empresas.stream().map(Empresa::toEmpresaVo).collect(Collectors.toList());
+        return ResponseEntity.ok(empresas);
+    }
+
     @DeleteMapping("/delete")
     public ResponseEntity deleteEmpresaById(@Param("id") Long id) {
         empresaService.deleteById(id);

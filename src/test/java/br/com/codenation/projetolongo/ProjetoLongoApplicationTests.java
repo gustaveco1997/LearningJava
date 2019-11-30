@@ -2,11 +2,10 @@ package br.com.codenation.projetolongo;
 
 import br.com.codenation.projetolongo.domain.entity.Empresa;
 import br.com.codenation.projetolongo.domain.entity.Usuario;
+import br.com.codenation.projetolongo.domain.vo.EmpresaVo;
 import br.com.codenation.projetolongo.service.AplicacaoService;
 import br.com.codenation.projetolongo.service.EmpresaServiceImpl;
 import br.com.codenation.projetolongo.service.UsuarioServiceImpl;
-import br.com.codenation.projetolongo.service.interfaces.EmpresaService;
-import br.com.codenation.projetolongo.service.interfaces.UsuarioService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,6 +25,12 @@ class ProjetoLongoApplicationTests {
 
     //Criar Builder para Usuario e Empresas
 
+
+    @Test
+    void getMediaSalarial() {
+        List<EmpresaVo> empresaVos = empresaService.mediaSalarialEmpresa();
+    }
+
     @Test
     void updateName() {
         Usuario u = new Usuario();
@@ -36,10 +41,10 @@ class ProjetoLongoApplicationTests {
 
     @Test
     void testando_selects() {
-        List<Empresa> empresas = empresaService.findByName("EmpresaTeste");
+        /*List<Empresa> empresas = empresaService.findByName("EmpresaTeste");
 
         assert (empresas != null && !empresas.isEmpty());
-        empresas.forEach(empresa -> System.out.println(empresa.getName()));
+        empresas.forEach(empresa -> System.out.println(empresa.getName()));*/
 
 
         //Empresa empresa = empresaService.findById(1L);

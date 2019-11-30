@@ -2,12 +2,15 @@ package br.com.codenation.projetolongo.service;
 
 import br.com.codenation.projetolongo.domain.DAO.EmpresaDAO;
 import br.com.codenation.projetolongo.domain.entity.Empresa;
+import br.com.codenation.projetolongo.domain.entity.Usuario;
+import br.com.codenation.projetolongo.domain.vo.EmpresaVo;
 import br.com.codenation.projetolongo.service.interfaces.EmpresaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,8 +55,43 @@ public class EmpresaServiceImpl implements EmpresaService {
 
     @Override
     public List<Empresa> findAll() {
-        return null;
+        return empresaDAO.findAll();
     }
+
+    @Override
+    public List<EmpresaVo> mediaSalarialEmpresa() {
+        List<Empresa> empresas = findAll();
+        List<EmpresaVo> empresaVos = new ArrayList<>();
+        empresas.forEach(empresa -> {
+
+            EmpresaVo empresaVo = Empresa.toEmpresaVo(empresa);
+            List<Usuario> usuariosFromEmpresa = empresaDAO.getUsuarios(empresa);
+
+            BigDecimal soma = usuariosFromEmpresa.stream().map(Usuario::getSalario)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+            BigDecimal media;
+            if (usuariosFromEmpresa.isEmpty()) {
+                media = BigDecimal.ZERO;
+            } else {
+                media = soma.divide(new BigDecimal(usuariosFromEmpresa.size()));
+            }
+
+            empresaVo.setMediaSalarialEmpresa(media);
+            empresaVos.add(empresaVo);
+
+        });
+        return empresaVos;
+    }
+
+    /*public BigDecimal average(List<BigDecimal> bigDecimals, RoundingMode roundingMode) {
+        BigDecimal sum = bigDecimals.stream()
+                .map(Objects::requireNonNull)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return sum.divide(new BigDecimal(bigDecimals.size()), roundingMode);
+    }*/
+
+
 
     /*    public Empresa insertEmpresa(Empresa empresa) throws MyExceptions {
 

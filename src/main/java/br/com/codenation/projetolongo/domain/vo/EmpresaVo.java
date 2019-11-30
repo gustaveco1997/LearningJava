@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @Getter
@@ -18,5 +20,6 @@ public class EmpresaVo {
     private Integer vagas;
     private String site;
     private Endereco endereco;
+    private BigDecimal mediaSalarialEmpresa;
 
 }

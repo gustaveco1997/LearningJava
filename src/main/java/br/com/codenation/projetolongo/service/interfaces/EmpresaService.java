@@ -1,6 +1,7 @@
 package br.com.codenation.projetolongo.service.interfaces;
 
 import br.com.codenation.projetolongo.domain.entity.Empresa;
+import br.com.codenation.projetolongo.domain.vo.EmpresaVo;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -18,5 +19,7 @@ public interface EmpresaService {
     void deleteById(Long id);
 
     List<Empresa> findAll();
+
+    List<EmpresaVo> mediaSalarialEmpresa();
 
 }
