@@ -29,6 +29,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+        //spring security login
+        //mapear quem deve ter o auth
+        //antMatches
         auth.inMemoryAuthentication().withUser("gustavo")
                 .password("12345678")
                 .roles("ADMIN");

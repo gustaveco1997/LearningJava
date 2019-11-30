@@ -1,7 +1,6 @@
 -- liquibase formatted sql
 
 
-
 -- changeset gustavo-reis:1.0 dbms:mysql
 create table company
 (
