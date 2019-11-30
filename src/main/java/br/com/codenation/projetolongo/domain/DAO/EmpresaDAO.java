@@ -1,6 +1,7 @@
 package br.com.codenation.projetolongo.domain.DAO;
 
 import br.com.codenation.projetolongo.domain.entity.Empresa;
+import br.com.codenation.projetolongo.domain.entity.Usuario;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -22,6 +23,10 @@ public interface EmpresaDAO extends JpaRepository<Empresa, Long> {//Long é a ch
 
     @Query(value = "SELECT e FROM Empresa e WHERE e.name = :name ")
     List<Empresa> findByName(@PathParam("name") String name);
+
+    @Query(value = "SELECT u FROM Empresa e  " +
+            "JOIN e.usuarios u WHERE u.empresa = :empresa ")
+    List<Usuario> getUsuarios(@PathParam("empresa") Empresa empresa);
 
 
     @Transactional
